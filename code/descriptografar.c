@@ -127,15 +127,43 @@ bool validarVogais(char str[]) {
     return true;
 }
 
+int getKeyLength(int key[]) {
+    int sizeKey = 1;
+    for (int i = 1; i < 3; i++) {
+        if(key[i] != -1)
+            sizeKey++;
+    }
+    return sizeKey;
+}
+
+void printKey(int key[]) {
+    printf("[%d", 26-key[0]);
+    if(key[1] != -1)
+       printf(", %d", 26-key[1]);
+    if(key[2] != -1)
+        printf(", %d", 26-key[2]); 
+    printf("]\n");
+}
+
+void encodeWord(char str[], char word[], int key[]) {
+    int sizeKey = getKeyLength(key);
+    int i = 0;
+    while(str[i] != '\0') {
+        int pos = i%sizeKey;
+        word[i] = deslocarLetra(str[i], key[pos]);
+        i++;
+    }
+}
+
 void decifrarCifra(char str[], char new[]) {
-    int c[3] = {0,0,0};
+    int c[3] = {0,-1,-1};
     while (c[0]<=25) {
         if(c[2]>25) {
-            c[2] = 0;
+            c[2] = -1;
             c[1]++;
         }
         if(c[1]>25) {
-            c[1] = 0;
+            c[1] = -1;
             c[0]++;
         }
         if(c[0]>25)
@@ -143,9 +171,8 @@ void decifrarCifra(char str[], char new[]) {
         bool kwy = false;
         int j = 0;
         ctotal++;
+        encodeWord(str, new, c);
         while(str[j] != '\0') {
-            int pos = j%3;
-            new[j] = deslocarLetra(str[j], c[pos]);
             if(new[j] == 'k' || new[j] == 'w' || new[j] == 'y') {
                 kwy = true;
                 break;
@@ -160,7 +187,8 @@ void decifrarCifra(char str[], char new[]) {
         new[j] = '\0';
         if(validarVogais(new) && validarBigramas(new)) {
             if(encontrarPalavra(new)) {
-                printf("%s - [%d, %d, %d]\n", new, 26-c[0], 26-c[1], 26-c[2]);
+                printf("%s - ", new);
+                printKey(c);
             }
         }
         c[2]++;
