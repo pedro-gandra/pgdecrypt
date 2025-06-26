@@ -17,7 +17,7 @@ Esse software foi criado para um projeto extencionista com o objetivo de despert
 Este projeto utiliza uma variação da **Cifra de Vigenère** para descriptografar palavras únicas da língua portuguesa, com os seguintes critérios:
 
 - Palavras **entre 6 e 25 letras**.
-- Palavras criptografas com uma **chave de até 3 letras/números** (26³ = **17.576** possibilidades).
+- Palavras criptografas com uma **chave de até 3 letras/números** (26¹ + 26² + 26³ = **18.278** possibilidades).
 
 O programa é capaz de descriptografar em **tempo médio inferior a 0.05s**, retornando a(s) palavra(s) original(is) e a chave utilizada para criptografar.
 
@@ -28,7 +28,7 @@ O algoritmo é otimizado para trabalhar com palavras da língua portuguesa (exce
 Fluxo resumido:
 
 1. A palavra criptografada é inserida pelo usuário
-2. O algoritmo testa todas as **17.576** chaves possíveis.
+2. O algoritmo testa todas as **18.278** chaves possíveis.
 3. Palavras com **K, Y ou W** são automaticamente descartadas, pois não fazem parte da língua portuguesa padrão.
 4. Das restantes, são removidas aquelas que não tem **vogais** o suficiente.
 5. Das restantes, são removidas aquelas que possuem **bigramas (pares de letras) inexistentes** no português (lista pré-processada em um dos arquivos de recurso).

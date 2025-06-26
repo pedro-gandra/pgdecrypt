@@ -155,19 +155,41 @@ void encodeWord(char str[], char word[], int key[]) {
     }
 }
 
+void increaseKey(int key[]) {
+    if(key[1] == -1) {
+        if(key[0] < 25)
+            key[0]++;
+        else {
+            key[0] = 0;
+            key[1] = 0;
+        }
+    } else if(key[2] == -1) {
+        if(key[1] < 25)
+            key[1]++;
+        else {
+            key[1] = 0;
+            key[0]++;
+        }
+        if(key[0]>25) {
+            key[0] = 0;
+            key[2] = 0;
+        }
+    } else {
+        key[2]++;
+        if(key[2]>25) {
+            key[2] = 0;
+            key[1]++;
+        }
+        if(key[1]>25) {
+            key[1] = 0;
+            key[0]++;
+        }
+    }
+}
+
 void decifrarCifra(char str[], char new[]) {
     int c[3] = {0,-1,-1};
     while (c[0]<=25) {
-        if(c[2]>25) {
-            c[2] = -1;
-            c[1]++;
-        }
-        if(c[1]>25) {
-            c[1] = -1;
-            c[0]++;
-        }
-        if(c[0]>25)
-            break;
         bool kwy = false;
         int j = 0;
         ctotal++;
@@ -181,7 +203,7 @@ void decifrarCifra(char str[], char new[]) {
         }
         if(kwy) {
             ckyw++;
-            c[2]++;
+            increaseKey(c);
             continue;
         }
         new[j] = '\0';
@@ -191,7 +213,7 @@ void decifrarCifra(char str[], char new[]) {
                 printKey(c);
             }
         }
-        c[2]++;
+        increaseKey(c);
     }
 }
 
